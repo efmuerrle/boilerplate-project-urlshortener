@@ -117,7 +117,8 @@ app.get('/api/shorturl/:id', async (req, res, next) => {
   const id = req.params.id;
 
   await URL.findOne({ count: id }, (err, doc) => {
-    res.send({ url: doc._doc.url });
+    // res.send({ url: doc._doc.url });
+    res.status(301).redirect(doc._doc.url);
   });
 });
 
