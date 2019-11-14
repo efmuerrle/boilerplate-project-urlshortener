@@ -1,28 +1,22 @@
 'use strict';
 
 var express = require('express');
-var mongo = require('mongodb');
+
 var mongoose = require('mongoose');
 
 var cors = require('cors');
-
+require('dotenv').config();
 var app = express();
 
 const bodyParser = require('body-parser');
 const dns = require('dns');
 // Basic Configuration
 var port = process.env.PORT || 3000;
-
 /** this project needs a db !! **/
 
-// mongoose.connect(process.env.MONGOLAB_URI);
-
-// mongoose.connect(
-//   'mongodb+srv://dbUser:<W4ykLQmgjtk8eP2>@cluster0-ehwlj.mongodb.net/test?retryWrites=true&w=majority'
-// );
-
+// console.log('process.env.MONGOLAB_URI :', process.env.MONGOLAB_URI);
 mongoose
-  .connect('mongodb://localhost/fcc', {
+  .connect(process.env.MONGOLAB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -92,7 +86,7 @@ const createURL = async body => {
 
   const newEntry = new URL({
     url: body.url,
-    count: latestEntry._doc.count + 1 || 0
+    count: latestEntry ? latestEntry._doc.count + 1 : 0
   });
 
   try {
